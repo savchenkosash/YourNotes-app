@@ -8,17 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		113546C72B743ADA00B061D3 /* AddItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 113546C62B743ADA00B061D3 /* AddItemView.swift */; };
-		1146DF102B7E7BFA00EDC558 /* Searchable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1146DF0F2B7E7BFA00EDC558 /* Searchable.swift */; };
 		115A96DB2B739F4F00E0566F /* YourNotesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 115A96DA2B739F4F00E0566F /* YourNotesApp.swift */; };
 		115A96DF2B739F5200E0566F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 115A96DE2B739F5200E0566F /* Assets.xcassets */; };
 		115A96E22B739F5200E0566F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 115A96E12B739F5200E0566F /* Preview Assets.xcassets */; };
 		115A96F02B739FBF00E0566F /* ItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 115A96EF2B739FBF00E0566F /* ItemModel.swift */; };
 		115A96F52B73A18D00E0566F /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 115A96F42B73A18D00E0566F /* MainView.swift */; };
 		117443EC2B7A384100EAE1B7 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 117443EB2B7A384100EAE1B7 /* CardView.swift */; };
-		117443F02B7A418E00EAE1B7 /* testView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 117443EF2B7A418E00EAE1B7 /* testView.swift */; };
-		117443F32B7AC06200EAE1B7 /* ButtView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 117443F22B7AC06200EAE1B7 /* ButtView.swift */; };
-		117443F62B7B7A8200EAE1B7 /* UserModelTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 117443F52B7B7A8200EAE1B7 /* UserModelTest.swift */; };
-		119225352B95999B007F4EEC /* UserModelTest2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119225342B95999B007F4EEC /* UserModelTest2.swift */; };
 		11CB69E12B766691004497DD /* EditItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11CB69E02B766691004497DD /* EditItemView.swift */; };
 		11DD8FDB2B99053E00B9D544 /* SFSafeSymbols in Frameworks */ = {isa = PBXBuildFile; productRef = 11DD8FDA2B99053E00B9D544 /* SFSafeSymbols */; };
 		11ECD33D2B73B9E40050129F /* ItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11ECD33C2B73B9E40050129F /* ItemViewModel.swift */; };
@@ -26,7 +21,6 @@
 
 /* Begin PBXFileReference section */
 		113546C62B743ADA00B061D3 /* AddItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItemView.swift; sourceTree = "<group>"; };
-		1146DF0F2B7E7BFA00EDC558 /* Searchable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Searchable.swift; sourceTree = "<group>"; };
 		115A96D72B739F4F00E0566F /* YourNotes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YourNotes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		115A96DA2B739F4F00E0566F /* YourNotesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YourNotesApp.swift; sourceTree = "<group>"; };
 		115A96DE2B739F5200E0566F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -35,10 +29,6 @@
 		115A96EF2B739FBF00E0566F /* ItemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemModel.swift; sourceTree = "<group>"; };
 		115A96F42B73A18D00E0566F /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		117443EB2B7A384100EAE1B7 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
-		117443EF2B7A418E00EAE1B7 /* testView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testView.swift; sourceTree = "<group>"; };
-		117443F22B7AC06200EAE1B7 /* ButtView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtView.swift; sourceTree = "<group>"; };
-		117443F52B7B7A8200EAE1B7 /* UserModelTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModelTest.swift; sourceTree = "<group>"; };
-		119225342B95999B007F4EEC /* UserModelTest2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModelTest2.swift; sourceTree = "<group>"; };
 		11CB69E02B766691004497DD /* EditItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditItemView.swift; sourceTree = "<group>"; };
 		11ECD33C2B73B9E40050129F /* ItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -78,7 +68,6 @@
 				115A96F22B739FEF00E0566F /* Models */,
 				11A33D8C2B741D8600B1219B /* ViewModels */,
 				11A33D8D2B741DA500B1219B /* Views */,
-				11DD8FDD2B991AB600B9D544 /* TestViews */,
 				115A96DE2B739F5200E0566F /* Assets.xcassets */,
 				115A96E82B739F5200E0566F /* Info.plist */,
 				115A96E02B739F5200E0566F /* Preview Content */,
@@ -119,18 +108,6 @@
 				11CB69E02B766691004497DD /* EditItemView.swift */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		11DD8FDD2B991AB600B9D544 /* TestViews */ = {
-			isa = PBXGroup;
-			children = (
-				117443EF2B7A418E00EAE1B7 /* testView.swift */,
-				117443F22B7AC06200EAE1B7 /* ButtView.swift */,
-				117443F52B7B7A8200EAE1B7 /* UserModelTest.swift */,
-				119225342B95999B007F4EEC /* UserModelTest2.swift */,
-				1146DF0F2B7E7BFA00EDC558 /* Searchable.swift */,
-			);
-			path = TestViews;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -209,14 +186,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				113546C72B743ADA00B061D3 /* AddItemView.swift in Sources */,
-				1146DF102B7E7BFA00EDC558 /* Searchable.swift in Sources */,
 				11ECD33D2B73B9E40050129F /* ItemViewModel.swift in Sources */,
 				115A96F02B739FBF00E0566F /* ItemModel.swift in Sources */,
 				115A96F52B73A18D00E0566F /* MainView.swift in Sources */,
-				119225352B95999B007F4EEC /* UserModelTest2.swift in Sources */,
-				117443F62B7B7A8200EAE1B7 /* UserModelTest.swift in Sources */,
-				117443F32B7AC06200EAE1B7 /* ButtView.swift in Sources */,
-				117443F02B7A418E00EAE1B7 /* testView.swift in Sources */,
 				115A96DB2B739F4F00E0566F /* YourNotesApp.swift in Sources */,
 				117443EC2B7A384100EAE1B7 /* CardView.swift in Sources */,
 				11CB69E12B766691004497DD /* EditItemView.swift in Sources */,
