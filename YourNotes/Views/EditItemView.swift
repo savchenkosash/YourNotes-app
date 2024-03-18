@@ -9,9 +9,6 @@ import SwiftUI
 
 struct EditItemView: View {
     
-//    @Environment (\.presentationMode) var presentationMode
-    
-//    let item: ItemModel
     @EnvironmentObject var itemViewModel: ItemViewModel
     @Environment(\.presentationMode) var presentationMode
     
@@ -21,17 +18,7 @@ struct EditItemView: View {
             
                 ScrollView {
                     VStack (alignment: .leading) {
-//                        HStack {
-//                            NavigationLink("Back1", destination: MainView())
-//                                .padding(.horizontal, 5)
-//                            Spacer()
-//
-//                            Button("Back") {
-//
-//                            }
-//                                .padding(.horizontal, 5)
-//                        } .padding(.top)
-                        
+
                         Spacer()
                             .frame(height: 20)
                         
@@ -56,7 +43,6 @@ struct EditItemView: View {
                         Button(action: {
                             itemViewModel.editItem(id: item.id, title: item.title, caption: item.caption)
                             itemViewModel.updateItem(item: item)
-//                            itemViewModel.updateFilteredArray()
                             presentationMode.wrappedValue.dismiss()
                             }, label: {
                                 Text("Save & close")
@@ -82,9 +68,8 @@ struct EditItemView: View {
                                 .cornerRadius(10)
                                 .foregroundColor(.white)
                         }) .padding()
-                        }
-                
-                    .padding(.horizontal)
+                    }
+                .padding(.horizontal)
             }
         }
 

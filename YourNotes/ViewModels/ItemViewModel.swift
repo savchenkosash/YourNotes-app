@@ -51,19 +51,8 @@ class ItemViewModel: ObservableObject {
         }
     }
     
-//    func updateFilteredArrayByName() {
-//        sortedArray = items.sorted(by: { (title1, title2) -> Bool in
-//            return title1.title < title2.title
-//        })
-//    }
-    
     func updateFilteredArrayByName() {
         items = items.sorted(by: { $0.title < $1.title })
-        
-//
-//        items = items.sorted(by: { (title1, title2) -> Bool in
-//            return title1.title > title2.title
-//        })
     }
     
     func updateFavoritesArray() {
@@ -74,12 +63,6 @@ class ItemViewModel: ObservableObject {
     
     func updateFilteredArray() {
         filteredArray = items.filter({ $0.title.localizedLowercase.contains(filterTextField.lowercased()) || $0.caption.localizedLowercase.contains(filterTextField.lowercased()) })
-        
-//          FULL SAMPLE CODE
-//        filteredArray = items.filter({ (symbol) -> Bool in
-//            return symbol.title.lowercased().contains(filterTextField.lowercased())
-//            return symbol.title.localizedLowercase.contains(filterTextField.lowercased())
-//    })
     }
     
     func addItem(title: String, caption: String, flag: Bool) {
@@ -99,13 +82,7 @@ class ItemViewModel: ObservableObject {
     func removeItem(at index: Int) {
         items.remove(at: index)
     }
-
-    
-//    func removeItem(indexSet: IndexSet) {
-//        items.remove(atOffsets: indexSet)
-//    }
-    
-    
+   
 }
     
 

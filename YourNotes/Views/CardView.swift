@@ -12,7 +12,6 @@ struct CardView: View {
     @EnvironmentObject var itemViewModel: ItemViewModel
     
     @State var item: ItemModel
-//    let item: ItemModel
     @State var colorCard: Color = Color(#colorLiteral(red: 0.9787905452, green: 0.8980907015, blue: 0.6607496145, alpha: 1))
     @State var fontColor: Color = Color(#colorLiteral(red: 0.1298420429, green: 0.1298461258, blue: 0.1298439503, alpha: 1))
     @State var showRemove: Bool = true
@@ -21,8 +20,7 @@ struct CardView: View {
         ZStack {
                 RoundedRectangle(cornerRadius: 20.0)
                     .frame(width: UIScreen.main.bounds.width * 0.4, height: UIScreen.main.bounds.height * 0.25, alignment: .center)
-//                    .shadow(color: .gray, radius: 15)
-            
+
                 VStack {
                     Text(item.title)
                         .foregroundColor(fontColor)
@@ -40,23 +38,22 @@ struct CardView: View {
                             .frame(width: UIScreen.main.bounds.width * 0.25)
                         
                         Button(action: {
-                            withAnimation(.spring()) {
-                                item.flag.toggle()
-                                itemViewModel.updateItem(item: item)
-                            }
-                        }, label: {
-                                ZStack {
-                                        Circle()
-                                            .frame(width: 25, height: 25, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                                            .foregroundColor(item.flag ? .green : Color(#colorLiteral(red: 0.9240196943, green: 0.7460784316, blue: 0.6186274886, alpha: 1)))
-                                        if item.flag {
-                                            Image(systemName: "checkmark")
-                                                .font(.headline)
+                                    withAnimation(.spring()) {
+                                        item.flag.toggle()
+                                        itemViewModel.updateItem(item: item)
+                                    }
+                                }, label: {
+                                        ZStack {
+                                                Circle()
+                                                    .frame(width: 25, height: 25, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                                                    .foregroundColor(item.flag ? .green : Color(#colorLiteral(red: 0.9240196943, green: 0.7460784316, blue: 0.6186274886, alpha: 1)))
+                                                if item.flag {
+                                                    Image(systemName: "checkmark")
+                                                        .font(.headline)
+                                                }
                                         }
-                                }
-                    })
+                                })
                     }
-                    
                 }
             }
         .foregroundColor(colorCard)

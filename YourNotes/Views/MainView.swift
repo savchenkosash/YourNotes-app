@@ -124,23 +124,6 @@ struct MainView: View {
                                                         .onTapGesture {
                                                                 selectedItem = item
                                                     }
-                                        
-                                            // NEW FUNC (BETA)
-                                        
-//                                        if showRemove {
-//                                            VStack(alignment: .trailing) {
-//                                                                Button(action: {
-//                                                                    itemViewModel.removeItem(at: itemViewModel.items.firstIndex(of: item) ?? 0)
-//                                                                }, label: {
-//                                                                    Text("⛔️")
-//                                                                        .font(.largeTitle)
-//                                                                        .frame(width: 35, height: 35, alignment: .topTrailing)
-//                                                                        .shadow(radius: 10)
-//                                                                })
-//                                                                Spacer()
-//                                                                    .frame(width: UIScreen.main.bounds.width * 0.3, height: UIScreen.main.bounds.height * 0.17, alignment: .center)
-//                                            }
-//                                        }
                                     }
                                 }
                             } else {
@@ -171,31 +154,28 @@ struct MainView: View {
                                             CardView (item: item)
                                                             .padding(.all, 10)
                                                             .contextMenu(menuItems: {
-                                                                Button(action: {
-                                                                    withAnimation(.easeInOut(duration: 0.2)){
-                                                                        itemViewModel.removeItem(at: itemViewModel.items.firstIndex(of: item) ?? 0)
-                                                                        itemViewModel.updateFilteredArray()
-                                                                    }
-                                                                    }, label: {
-                                                                    Text("Remove")
-                                                                })
-                                                            })
-                                                            .onTapGesture {
-                                                                    selectedItem = item
-                                                                    itemViewModel.disableFilter()
-                                                        }
+                                                                            Button(action: {
+                                                                                withAnimation(.easeInOut(duration: 0.2)){
+                                                                                    itemViewModel.removeItem(at: itemViewModel.items.firstIndex(of: item) ?? 0)
+                                                                                    itemViewModel.updateFilteredArray()
+                                                                                    }
+                                                                                }, label: {
+                                                                                Text("Remove")
+                                                                            })
+                                                                        })
+                                                                            .onTapGesture {
+                                                                                    selectedItem = item
+                                                                                    itemViewModel.disableFilter()
+                                                                                }
                                         }
                                     }
                                 }
-                                
                             }
                         }
                     }
                     
                     // END Filter and no filter view END
                     
-                        // old destination be here
-                        
                     }
                 }
             }
@@ -204,17 +184,9 @@ struct MainView: View {
             .navigationTitle(showFavoritesItems ? Text("Completed ✅") : Text("My notes 📝"))
             .navigationBarItems(trailing: NavigationLink("Add item", destination: AddItemView()))
             .toolbar {
-//                ToolbarItem(placement: .navigationBarLeading) {
-//                    Button(action: {
-//                        showRemove.toggle()
-////                        itemViewModel.items.removeAll()
-//                    }, label: {
-//                        Image(systemName: "gear")
-//                    })
-//                }
                 ToolbarItem(placement: .navigationBarLeading) {
                     Menu ("Options"){
-                            Button("Sort A-Z"){
+                            Button("Sort by A-Z"){
                                 itemViewModel.updateFilteredArrayByName()
                             }
                             Button("Show completed"){
