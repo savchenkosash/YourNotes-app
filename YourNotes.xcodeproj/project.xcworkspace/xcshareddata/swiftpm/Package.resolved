@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "SFSafeSymbols",
+        "repositoryURL": "https://github.com/SFSafeSymbols/SFSafeSymbols",
+        "state": {
+          "branch": null,
+          "revision": "e70811d1edcd385fb7c3284ae4bcc8cd3c8eb55a",
+          "version": "2.0.0"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
