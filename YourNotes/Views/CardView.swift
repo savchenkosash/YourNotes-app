@@ -22,42 +22,83 @@ struct CardView: View {
                 RoundedRectangle(cornerRadius: 20.0)
                     .frame(width: UIScreen.main.bounds.width * 0.4, height: UIScreen.main.bounds.height * 0.25, alignment: .center)
 //                    .shadow(color: .gray, radius: 15)
+                    .overlay(
+                        VStack {
+                        Text(item.title)
+                            .foregroundColor(fontColor)
+                            .font(.title2)
+                            .fontWeight(.bold)
+                            .padding(.bottom, 10)
+                            .frame(width: UIScreen.main.bounds.width * 0.3, height: UIScreen.main.bounds.height * 0.05, alignment: .leading)
+                        Text(item.caption)
+                            .padding(8)
+                            .foregroundColor(fontColor)
+                            .frame(width: UIScreen.main.bounds.width * 0.37, height: UIScreen.main.bounds.height * 0.12, alignment: .topLeading)
+                        
+                        HStack {
+                            Spacer()
+                                .frame(width: UIScreen.main.bounds.width * 0.25)
+                            
+                            ZStack {
+                                    Circle()
+                                        .frame(width: 25, height: 25, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                                        .foregroundColor(item.flag ? .green : Color(#colorLiteral(red: 0.9240196943, green: 0.7460784316, blue: 0.6186274886, alpha: 1)))
+                                    if item.flag {
+                                        Image(systemName: "checkmark")
+                                            .font(.headline)
+                                    }
+                            }
+                            
+                            Button(action: {
+                                
+                            }, label: {
+//                                    ZStack {
+//                                            Circle()
+//                                                .frame(width: 25, height: 25, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+//                                                .foregroundColor(item.flag ? .green : Color(#colorLiteral(red: 0.9240196943, green: 0.7460784316, blue: 0.6186274886, alpha: 1)))
+//                                            if item.flag {
+//                                                Image(systemName: "checkmark")
+//                                                    .font(.headline)
+//                                            }
+//                                    }
+                        })
+                        }
+                    })
             
-                VStack {
-                    Text(item.title)
-                        .foregroundColor(fontColor)
-                        .font(.title2)
-                        .fontWeight(.bold)
-                        .padding(.bottom, 10)
-                        .frame(width: UIScreen.main.bounds.width * 0.3, height: UIScreen.main.bounds.height * 0.05, alignment: .leading)
-                    Text(item.caption)
-                        .padding(8)
-                        .foregroundColor(fontColor)
-                        .frame(width: UIScreen.main.bounds.width * 0.37, height: UIScreen.main.bounds.height * 0.12, alignment: .topLeading)
-                    
-                    HStack {
-                        Spacer()
-                            .frame(width: UIScreen.main.bounds.width * 0.25)
+                    .contextMenu(menuItems: {
+                        Button(action: {
+                            withAnimation(.easeInOut(duration: 0.2)){
+                                itemViewModel.removeItem(at: itemViewModel.items.firstIndex(of: item) ?? 0)}
+                            }, label: {
+                                HStack {
+                                    Text("Remove")
+                                    Image(systemName: "trash")
+                                }
+                        })
                         
                         Button(action: {
                             withAnimation(.spring()) {
                                 item.flag.toggle()
                                 itemViewModel.updateItem(item: item)
                             }
-                        }, label: {
-                                ZStack {
-                                        Circle()
-                                            .frame(width: 25, height: 25, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                                            .foregroundColor(item.flag ? .green : Color(#colorLiteral(red: 0.9240196943, green: 0.7460784316, blue: 0.6186274886, alpha: 1)))
-                                        if item.flag {
-                                            Image(systemName: "checkmark")
-                                                .font(.headline)
-                                        }
+                            }, label: {
+                                if item.flag {
+                                    HStack {
+                                        Text("Incomplete")
+                                        Image(systemName: "xmark")
+                                    }
+                                } else {
+                                    HStack {
+                                        Text("Completed!")
+                                        Image(systemName: "checkmark")
+                                    }
                                 }
+                        })
                     })
-                    }
-                    
-                }
+            
+            // overlay
+            
+                
             }
         .foregroundColor(colorCard)
     }

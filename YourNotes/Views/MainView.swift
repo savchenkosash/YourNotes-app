@@ -105,14 +105,14 @@ struct MainView: View {
                                     ZStack {
                                         CardView (item: item)
                                                         .padding(.all, 10)
-                                                        .contextMenu(menuItems: {
-                                                            Button(action: {
-                                                                withAnimation(.easeInOut(duration: 0.2)){
-                                                                    itemViewModel.removeItem(at: itemViewModel.items.firstIndex(of: item) ?? 0)}
-                                                                }, label: {
-                                                                Text("Remove")
-                                                            })
-                                                        })
+//                                                        .contextMenu(menuItems: {
+//                                                            Button(action: {
+//                                                                withAnimation(.easeInOut(duration: 0.2)){
+//                                                                    itemViewModel.removeItem(at: itemViewModel.items.firstIndex(of: item) ?? 0)}
+//                                                                }, label: {
+//                                                                Text("Remove")
+//                                                            })
+//                                                        })
                                                         .sheet(item: $selectedItem,
                                                                onDismiss: {
                                                                 selectedItem = nil
@@ -149,16 +149,16 @@ struct MainView: View {
                                         ZStack {
                                             CardView (item: item)
                                                             .padding(.all, 10)
-                                                            .contextMenu(menuItems: {
-                                                                Button(action: {
-                                                                    withAnimation(.easeInOut(duration: 0.2)){
-                                                                        itemViewModel.removeItem(at: itemViewModel.items.firstIndex(of: item) ?? 0)
-                                                                        itemViewModel.updateFilteredArray()
-                                                                    }
-                                                                    }, label: {
-                                                                    Text("Remove")
-                                                                })
-                                                            })
+//                                                            .contextMenu(menuItems: {
+//                                                                Button(action: {
+//                                                                    withAnimation(.easeInOut(duration: 0.2)){
+//                                                                        itemViewModel.removeItem(at: itemViewModel.items.firstIndex(of: item) ?? 0)
+//                                                                        itemViewModel.updateFilteredArray()
+//                                                                    }
+//                                                                    }, label: {
+//                                                                    Text("Remove!")
+//                                                                })
+//                                                            })
                                                             .onTapGesture {
                                                                     selectedItem = item
                                                                     itemViewModel.disableFilter()

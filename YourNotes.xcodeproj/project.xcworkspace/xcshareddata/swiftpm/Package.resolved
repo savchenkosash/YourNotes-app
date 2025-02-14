@@ -1,16 +1,33 @@
 {
-  "object": {
-    "pins": [
-      {
-        "package": "SFSafeSymbols",
-        "repositoryURL": "https://github.com/SFSafeSymbols/SFSafeSymbols",
-        "state": {
-          "branch": null,
-          "revision": "e70811d1edcd385fb7c3284ae4bcc8cd3c8eb55a",
-          "version": "2.0.0"
-        }
+  "originHash" : "04f4fcdc31743d76985c3c3e5f69b75599165c81ae34a0912439b4a939e8b690",
+  "pins" : [
+    {
+      "identity" : "sfsafesymbols",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SFSafeSymbols/SFSafeSymbols",
+      "state" : {
+        "revision" : "e70811d1edcd385fb7c3284ae4bcc8cd3c8eb55a",
+        "version" : "2.0.0"
       }
-    ]
-  },
-  "version": 1
+    },
+    {
+      "identity" : "swiftfulrecursiveui",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SwiftfulThinking/SwiftfulRecursiveUI",
+      "state" : {
+        "revision" : "3d2d5ac6efe70874fb5ffb2f8e1d5ccd457f4366",
+        "version" : "1.0.2"
+      }
+    },
+    {
+      "identity" : "swiftfulrouting",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SwiftfulThinking/SwiftfulRouting",
+      "state" : {
+        "revision" : "bf0a8b4628b0e24d60f090b382c15b96329ab92c",
+        "version" : "5.3.6"
+      }
+    }
+  ],
+  "version" : 3
 }

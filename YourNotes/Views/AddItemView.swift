@@ -9,7 +9,7 @@ import SwiftUI
 
 struct AddItemView: View {
     
-    @Environment (\.presentationMode) var presentationMode
+    @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var itemViewModel: ItemViewModel
     
     @State var textFieldText: String = ""
@@ -31,7 +31,8 @@ struct AddItemView: View {
                         .cornerRadius(10)
                     
                     TextEditor(text: $captionFieldText)
-                        .frame(height: UIScreen.main.bounds.height * 0.4)
+                        .frame(minHeight: UIScreen.main.bounds.height * 0.1, idealHeight: UIScreen.main.bounds.height * 0.4, maxHeight: UIScreen.main.bounds.height * 0.4)
+//                        .frame(height: UIScreen.main.bounds.height * 0.4)
                         .colorMultiply(Color(UIColor.secondarySystemBackground))
                         .cornerRadius(10)
                         }
