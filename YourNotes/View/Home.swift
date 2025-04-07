@@ -11,9 +11,11 @@ import SwiftData
 struct Home: View {
     @EnvironmentObject var noteViewModel: NoteViewModel
     @State private var isAddingNote = false
-    @State private var selectedNote: Note?
+    @State private var selectedNote: Note? 
     
-    @State private var searchBarText: String = ""
+    private var navigationBarHidden: Bool {
+        noteViewModel.allNotes.isEmpty ? true : false
+    }
     
     let columns: [GridItem] = [GridItem(.adaptive(minimum: UIScreen.main.bounds.width * 0.4, maximum: 300))]
     
@@ -47,7 +49,7 @@ struct Home: View {
 //                                .background(Color(.systemGray5))
 //                                .cornerRadius(10)
 //                                .padding(.horizontal)
-                            
+
                             ScrollView {
                                 LazyVGrid(columns: columns, spacing: 15) {
                                     ForEach(noteViewModel.allNotes, id: \.noteID) { note in
@@ -66,63 +68,34 @@ struct Home: View {
                         
             // Custom BottomBar
                         
-                        HStack {
-                            Spacer()
-                            Button {
-                                isAddingNote.toggle()
-                            } label: {
-                                HStack {
-                                    Image(systemName: "plus.circle.fill")
-                                        .font(.system(size: 26))
-//                                        .font(.custom("Poppins-Bold", size: 26))
-                                        .fontWeight(.bold)
-                                    Text("Заметка")
-                                        .fontWeight(.medium)
-                                        .font(.system(size: 18))
+                        if !navigationBarHidden {
+                            HStack {
+                                Spacer()
+                                Button {
+                                    isAddingNote.toggle()
+                                } label: {
+                                    HStack {
+                                        Image(systemName: "plus.circle.fill")
+                                            .font(.system(size: 26))
+                                            .fontWeight(.bold)
+                                        Text("Заметка")
+                                            .fontWeight(.medium)
+                                            .font(.system(size: 18))
+                                    }
+                                    .padding()
                                 }
-                                .padding()
-/*                                Label("Заметка", systemImage: "plus.circle.fill")
-//                                    .fontWeight(.medium)
-//                                    .font(.title3)
-//                                    .foregroundColor(.blue)
-//                                    .padding()
-*/
                             }
+                            .padding(.vertical, 3)
+                            .padding(.bottom, 5)
+                            .background(.ultraThinMaterial)
+                            .ignoresSafeArea(edges: .bottom)
                         }
-                        .padding(.vertical, 3)
-                        .padding(.bottom, 5)
-                        .background(.ultraThinMaterial)
-                        .ignoresSafeArea(edges: .bottom)
                     }
                 }
             }
-            .searchable(text: $searchBarText)
             .navigationTitle("Все заметки")
             .navigationBarTitleDisplayMode(.inline)
-//            .toolbar {
-//                ToolbarItem(placement: .topBarTrailing) {
-//                    Button {
-//                        isAddingNote.toggle()
-//                    } label: {
-//                        Image(systemName: "plus.circle.fill")
-//                            .font(.title)
-//                            .foregroundColor(.blue)
-//                    }
-//                }
-//                
-////                ToolbarItem(placement: .bottomBar) {
-////                    Button(action: {
-////                        // действие
-////                    }) {
-////                        HStack {
-////                            Text("Новая заметка")
-////                            Image(systemName: "plus.circle.fill")
-////                                .fontWeight(.bold)
-////                                .foregroundColor(.blue)
-////                        }
-////                    }
-////                }
-//            }
+            .navigationBarHidden(navigationBarHidden)
             .sheet(item: $selectedNote) { note in
                 EditNoteView(note: note)
             }

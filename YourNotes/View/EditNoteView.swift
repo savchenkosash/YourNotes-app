@@ -26,6 +26,11 @@ struct EditNoteView: View {
         _title = State(initialValue: note.title)
         _subTitle = State(initialValue: note.subTitle)
         _isCompleted = State(initialValue: note.isCompleted)
+        
+        // Загружаем изображение, если оно есть
+        if let imageData = note.noteImage, let image = UIImage(data: imageData) {
+            _noteImage = State(initialValue: image)
+        }
     }
     
     var body: some View {
@@ -41,7 +46,7 @@ struct EditNoteView: View {
                                 .padding(.horizontal, 8)
                         }
                         TextEditor(text: $subTitle)
-                            .frame(width: 331 ,height: 150)
+                            .frame(width: 331 ,height: 140)
                             .padding(4)
                     }
                 }
@@ -60,6 +65,32 @@ struct EditNoteView: View {
                         }
                     })
                 }
+                
+                Section {
+                    if let image = noteImage {
+                        ZStack(alignment: .topTrailing) {
+                            Image(uiImage: image)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(height: 120)
+                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                            
+                            Button(action: {
+                                noteImage = nil
+                                selectedPhoto = nil
+                            }) {
+                                Image(systemName: "xmark.circle.fill")
+                                    .foregroundColor(.gray)
+                                    .background(Circle().fill(Color.white))
+                            }
+                            .padding(8)
+                        }
+                    }
+                    
+                    PhotosPicker(selection: $selectedPhoto, matching: .images, photoLibrary: .shared()) {
+                        Label(selectedPhoto == nil ? "Выбрать изображение" : "Заменить изображение", systemImage: "photo")
+                    }
+                }
             }
             .navigationBarTitle("Изменить заметку", displayMode: .inline)
             .navigationBarItems(
@@ -69,20 +100,23 @@ struct EditNoteView: View {
                 } .foregroundColor(.red),
                 trailing: Button("Сохранить") {
                     noteViewModel.note = note
-//                    noteViewModel.updateNote(title: title, subTitle: subTitle, isCompleted: isCompleted)
+                    noteViewModel.updateNote(title: title, subTitle: subTitle, isCompleted: isCompleted)
                     saveNote()
                 }
                 .fontWeight(.bold)
                 .disabled(title.isEmpty)
             )
         }
+        .onChange(of: selectedPhoto) { _ in
+            ImageLoader.loadImage(from: selectedPhoto) { image in
+                self.noteImage = image
+            }
+        }
     }
     
     private func saveNote() {
-//        let imageData = noteImage?.jpegData(compressionQuality: 0.8)
-        noteViewModel.updateNote(title: title, subTitle: subTitle, isCompleted: isCompleted
-//        imageData: imageData
-        )
+        let imageData = noteImage?.jpegData(compressionQuality: 0.8)
+        noteViewModel.updateNote(title: title, subTitle: subTitle, imageData: imageData, isCompleted: isCompleted)
         dismiss()
     }
     

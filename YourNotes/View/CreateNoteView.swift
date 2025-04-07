@@ -32,7 +32,7 @@ struct CreateNoteView: View {
                                 .padding(.horizontal, 8)
                         }
                         TextEditor(text: $subTitle)
-                            .frame(width: 331 ,height: 150)
+                            .frame(width: 331 ,height: 140)
                             .padding(4)
                     }
                 }
@@ -52,6 +52,31 @@ struct CreateNoteView: View {
                     })
                 }
                 
+                Section {
+                    if let image = noteImage {
+                        ZStack(alignment: .topTrailing) {
+                            Image(uiImage: image)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(height: 200)
+                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                            
+                            Button(action: {
+                                noteImage = nil
+                                selectedPhoto = nil
+                            }) {
+                                Image(systemName: "xmark.circle.fill")
+                                    .foregroundColor(.gray)
+                                    .background(Circle().fill(Color.white))
+                            }
+                            .padding(8)
+                        }
+                    }
+                    
+                    PhotosPicker(selection: $selectedPhoto, matching: .images, photoLibrary: .shared()) {
+                        Label(selectedPhoto == nil ? "Выбрать изображение" : "Заменить изображение", systemImage: "photo")
+                    }
+                }
 //                Section(header: Text("Изображение")) {
 //                    
 //                    PhotosPicker(selection: $selectedPhoto, matching: .images, photoLibrary: .shared()) {
@@ -97,13 +122,16 @@ struct CreateNoteView: View {
                 .disabled(title.isEmpty)
             )
         }
+        .onChange(of: selectedPhoto) { _ in
+            ImageLoader.loadImage(from: selectedPhoto) { image in
+                self.noteImage = image
+            }
+        }
     }
     
     private func saveNote() {
-//        let imageData = noteImage?.jpegData(compressionQuality: 0.8)
-        noteViewModel.createNote(title: title, subTitle: subTitle, isCompleted: isCompleted
-//      imageData: imageData
-        )
+        let imageData = noteImage?.jpegData(compressionQuality: 0.8)
+        noteViewModel.createNote(title: title, subTitle: subTitle, imageData: imageData, isCompleted: isCompleted)
         dismiss()
     }
 }

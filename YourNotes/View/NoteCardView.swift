@@ -35,27 +35,15 @@ struct NoteCardView: View {
                 
                 Spacer()
                 
-                // Image loader img
-                /* Img
-                 
-                                 if let image = ImageLoader.imageFromData(data: note.noteImage ?? Data()) {
-                 
-                                         Image(uiImage: image)
-                                             .resizable()
-                                             .scaledToFit()
-                 //                            .frame(height: 200)
-                                             .clipShape(RoundedRectangle(cornerRadius: 10))
-                                         .padding(8)
-                                 }
-                 
-                 */
-                
-//                Button {
-//                    onDelete(note.noteID)
-//                } label: {
-//                    Image(systemName: "trash.fill")
-//                        .foregroundColor(.red)
-//                }
+                if let image = ImageLoader.imageFromData(data: note.noteImage ?? Data()) {
+                    
+                        Image(uiImage: image)
+                            .resizable()
+                            .scaledToFit()
+//                            .frame(height: 200)
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
+                        .padding(8)
+                }
             }
         }
         .frame(width: UIScreen.main.bounds.width * 0.35, height: UIScreen.main.bounds.height * 0.22, alignment: .center)
