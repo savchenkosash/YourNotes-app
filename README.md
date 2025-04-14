@@ -12,8 +12,9 @@ This is my first project where I learned the basics of iOS app development.
 ## 🛠️ Technologies
 
 - Swift
-- SwiftUI  
-- Xcode  
+- SwiftUI
+- SwiftData
+- Xcode
 
 ## 🚀 Getting Started
 
@@ -27,4 +28,10 @@ This is my first project where I learned the basics of iOS app development.
    ```bash
    open YourNotes.xcodeproj
 
+
 3.	Build and run the app on a simulator or real device.
+
+## 💡 Note
+
+This project was created for educational purposes and is a basic implementation of a note-taking app.
+I would be happy to receive any suggestions for improvement and further development.
