@@ -5,7 +5,7 @@ This is my first project where I learned the basics of iOS app development.
 
 ## 📱 Key Features
 
-- Create, edit, and delete text notes  
+- Create, edit, and delete text notes with images 
 - Intuitive and minimalistic user interface  
 - Local data storage on the device
 
