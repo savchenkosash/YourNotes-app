@@ -11,9 +11,9 @@ This is my first project where I learned the basics of iOS app development.
 
 ## 🛠️ Technologies
 
-- Swift  
+- Swift
+- SwiftUI  
 - Xcode  
-- UIKit
 
 ## 🚀 Getting Started
 
@@ -21,3 +21,8 @@ This is my first project where I learned the basics of iOS app development.
 
    ```bash
    git clone https://github.com/savchenkosash/YourNotes-app.git
+
+2.	Open the project in Xcode:
+
+   ```bash
+   open YourNotes.xcodeproj
