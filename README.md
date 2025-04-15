@@ -28,7 +28,7 @@ This is my first project where I learned the basics of iOS app development.
    ```bash
    open YourNotes.xcodeproj
 
-3. Build and run the app on a simulator or a real device.:
+3. Build and run the app on a simulator or a real device.
 
 ## 💡 Note
 
