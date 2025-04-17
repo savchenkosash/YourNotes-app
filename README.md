@@ -3,6 +3,9 @@
 **YourNotes** is a simple and convenient app for creating and managing notes, developed in Swift.  
 This is my first project where I learned the basics of iOS app development.
 
+![image alt](https://github.com/savchenkosash/YourNotes-app/blob/main/screen1.jpg?raw=true)
+![image alt](https://github.com/savchenkosash/YourNotes-app/blob/main/screen2.jpg?raw=true)
+
 ## 📱 Key Features
 
 - Create, edit, and delete text notes with images 
