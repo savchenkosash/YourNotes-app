@@ -23,6 +23,7 @@
 		115A96DB2B739F4F00E0566F /* YourNotesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 115A96DA2B739F4F00E0566F /* YourNotesApp.swift */; };
 		115A96DF2B739F5200E0566F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 115A96DE2B739F5200E0566F /* Assets.xcassets */; };
 		115A96E22B739F5200E0566F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 115A96E12B739F5200E0566F /* Preview Assets.xcassets */; };
+		11D369962DBCEC2B005A9E31 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 11D369952DBCEC2B005A9E31 /* Localizable.xcstrings */; };
 		11DD8FDB2B99053E00B9D544 /* SFSafeSymbols in Frameworks */ = {isa = PBXBuildFile; productRef = 11DD8FDA2B99053E00B9D544 /* SFSafeSymbols */; };
 /* End PBXBuildFile section */
 
@@ -43,6 +44,7 @@
 		115A96DE2B739F5200E0566F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		115A96E12B739F5200E0566F /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		115A96E82B739F5200E0566F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		11D369952DBCEC2B005A9E31 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +109,7 @@
 		115A96CE2B739F4F00E0566F = {
 			isa = PBXGroup;
 			children = (
+				11D369952DBCEC2B005A9E31 /* Localizable.xcstrings */,
 				115A96D92B739F4F00E0566F /* YourNotes */,
 				115A96D82B739F4F00E0566F /* Products */,
 			);
@@ -199,6 +202,7 @@
 			knownRegions = (
 				en,
 				Base,
+				ru,
 			);
 			mainGroup = 115A96CE2B739F4F00E0566F;
 			packageReferences = (
@@ -222,6 +226,7 @@
 			files = (
 				115A96E22B739F5200E0566F /* Preview Assets.xcassets in Resources */,
 				115A96DF2B739F5200E0566F /* Assets.xcassets in Resources */,
+				11D369962DBCEC2B005A9E31 /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -307,6 +312,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -361,6 +367,7 @@
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				VALIDATE_PRODUCT = YES;
 			};

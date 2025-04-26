@@ -59,7 +59,7 @@ struct NoteCardView: View {
                 }
                 }, label: {
                     HStack {
-                        Text("Удалить")
+                        Text("Delete")
                         Image(systemName: "trash")
                             .foregroundColor(.red)
                     }
@@ -72,12 +72,12 @@ struct NoteCardView: View {
                         HStack {
                             if note.isCompleted {
                                 HStack {
-                                    Text("Не выполнено")
+                                    Text("Not done")
                                     Image(systemName: "xmark")
                                 }
                             } else {
                                 HStack {
-                                    Text("Выполнено!")
+                                    Text("Done!")
                                     Image(systemName: "checkmark")
                                 }
                             }
@@ -89,9 +89,9 @@ struct NoteCardView: View {
     
     private func getAlert() -> Alert {
         return Alert(title: Text(""),
-                     message: Text("Вы действительно хотите удалить заметку?"),
-                     primaryButton: .default(Text("Отмена")),
-                     secondaryButton: .destructive(Text("Удалить"), action: {
+                     message: Text("Are you sure you want to delete the note?"),
+                     primaryButton: .default(Text("Cancel")),
+                     secondaryButton: .destructive(Text("Delete"), action: {
                         withAnimation(.easeInOut(duration: 0.2)){
                             onDelete(note.noteID)
                         }
