@@ -8,7 +8,7 @@
 import SwiftUI
 import SwiftData
 import SwiftfulRouting
-
+ 
 @main
 struct YourNotesApp: App {
 //    let persistenceController = PersistenceController.shared
