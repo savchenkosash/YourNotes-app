@@ -7,7 +7,7 @@
 
 import Foundation
 import SwiftData
-
+ 
 @Model
 class Note {
     private(set) var noteID: String = UUID().uuidString
