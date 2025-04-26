@@ -23,10 +23,10 @@ struct CreateNoteView: View {
         NavigationStack {
             Form {
                 Section {
-                    TextField("Введите заголовок", text: $title)
+                    TextField("Enter a title", text: $title)
                     ZStack (alignment: .topLeading) {
                         if subTitle.isEmpty {
-                            Text("Введите описание")
+                            Text("Enter a description")
                                 .foregroundColor(.init(uiColor: .systemGray3))
                                 .padding(.top, 13)
                                 .padding(.horizontal, 8)
@@ -37,7 +37,7 @@ struct CreateNoteView: View {
                     }
                 }
                 
-                Section(header: Text("Изменить статус")) {
+                Section(header: Text("Change status")) {
                     Button(action: {
                         isCompleted.toggle()
                     }, label: {
@@ -45,7 +45,7 @@ struct CreateNoteView: View {
                             Image(systemName: isCompleted ? "checkmark.circle.fill" : "circle")
                                 .foregroundColor(isCompleted ? .green : .gray)
                                 .font(.system(size: 24))
-                            Text("Выполнено!")
+                            Text("Done!")
                                 
                                 .foregroundColor(.primary)
                         }
@@ -74,7 +74,7 @@ struct CreateNoteView: View {
                     }
                     
                     PhotosPicker(selection: $selectedPhoto, matching: .images, photoLibrary: .shared()) {
-                        Label(selectedPhoto == nil ? "Выбрать изображение" : "Заменить изображение", systemImage: "photo")
+                        Label(selectedPhoto == nil ? "Select image" : "Replace image", systemImage: "photo")
                     }
                 }
 //                Section(header: Text("Изображение")) {
@@ -110,12 +110,12 @@ struct CreateNoteView: View {
 //                    
 //                }
             }
-            .navigationBarTitle("Новая заметка", displayMode: .inline)
+            .navigationBarTitle("New note", displayMode: .inline)
             .navigationBarItems(
-                leading: Button("Отменить") {
+                leading: Button("Cancel") {
                     dismiss()
                 },
-                trailing: Button("Создать") {
+                trailing: Button("Create") {
                     saveNote()
                 }
                 .fontWeight(.bold)
