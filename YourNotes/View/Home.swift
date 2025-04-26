@@ -23,7 +23,7 @@ struct Home: View {
         NavigationStack {
             VStack {
                 if noteViewModel.allNotes.isEmpty {
-                    Text("Нет заметок. Добавьте новую! 📝")
+                    Text("No notes. Add a new one! 📝")
                         .font(.headline)
                         .foregroundColor(.gray)
                         .padding()
@@ -31,7 +31,7 @@ struct Home: View {
                     Button {
                         isAddingNote.toggle()
                     } label: {
-                        Text("Создать заметку!")
+                        Text("Create a note!")
                             .font(.body)
                             .fontWeight(.bold)
                             .padding(20)
@@ -78,7 +78,7 @@ struct Home: View {
                                         Image(systemName: "plus.circle.fill")
                                             .font(.system(size: 26))
                                             .fontWeight(.bold)
-                                        Text("Заметка")
+                                        Text("Note")
                                             .fontWeight(.medium)
                                             .font(.system(size: 18))
                                     }
@@ -93,7 +93,7 @@ struct Home: View {
                     }
                 }
             }
-            .navigationTitle("Все заметки")
+            .navigationTitle("All notes")
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarHidden(navigationBarHidden)
             .sheet(item: $selectedNote) { note in
@@ -109,10 +109,20 @@ struct Home: View {
     }
 }
 
-#Preview {
+#Preview("English") {
     let mockService = MockNoteService()
     let mockViewModel = NoteViewModel(noteService: mockService)
 
     return Home()
         .environmentObject(mockViewModel)
+        .environment(\.locale, Locale(identifier: "en"))
+}
+
+#Preview("Russian") {
+    let mockService = MockNoteService()
+    let mockViewModel = NoteViewModel(noteService: mockService)
+
+    return Home()
+        .environmentObject(mockViewModel)
+        .environment(\.locale, Locale(identifier: "ru"))
 }
