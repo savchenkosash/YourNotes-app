@@ -5,6 +5,7 @@
 //  Created by alexander on 7.04.25.
 //
 
+// NoteService.swift
 import Foundation
 import SwiftData
 
@@ -20,7 +21,6 @@ enum NoteFactory {
     }
 }
 
-// MARK: - Protocol
 protocol NoteServiceProtocol {
     func fetchNote(by id: String) -> Note?  /// Получает заметку по `noteID`
     func fetchAllNotes() -> [Note] /// Получает все заметки, отсортированные по дате создания (от новых к старым)
@@ -29,7 +29,6 @@ protocol NoteServiceProtocol {
     func deleteNote(by id: String) /// Удаляет заметку по `noteID`
 }
 
-// MARK: - SWIFTDATA Service
 final class NoteService: NoteServiceProtocol {
     private let context: ModelContext
 
@@ -37,7 +36,6 @@ final class NoteService: NoteServiceProtocol {
         self.context = context
     }
 
-    /// Получает заметку по `noteID`
     func fetchNote(by id: String) -> Note? {
         do {
             let descriptor = FetchDescriptor<Note>(predicate: #Predicate { $0.noteID == id })
@@ -49,7 +47,6 @@ final class NoteService: NoteServiceProtocol {
         }
     }
 
-    /// Получает все заметки, отсортированные по дате создания (от новых к старым)
     func fetchAllNotes() -> [Note] {
         do {
             let descriptor = FetchDescriptor<Note>(sortBy: [SortDescriptor(\.dateCreate, order: .reverse)])
@@ -60,7 +57,6 @@ final class NoteService: NoteServiceProtocol {
         }
     }
 
-    /// Создаёт новую заметку
     func createNote(_ note: Note) {
         context.insert(note)
         do {
@@ -71,14 +67,13 @@ final class NoteService: NoteServiceProtocol {
         }
     }
 
-    /// Обновляет существующую заметку по `noteID`
     func updateNote(by id: String, with newNote: Note) {
         guard let existingNote = fetchNote(by: id) else {
             print("⚠️ Заметка с ID \(id) не найдена.")
             return
         }
 
-        existingNote.noteImage = newNote.noteImage
+        existingNote.noteImages = newNote.noteImages
         existingNote.title = newNote.title
         existingNote.subTitle = newNote.subTitle
         existingNote.isCompleted = newNote.isCompleted
@@ -92,7 +87,6 @@ final class NoteService: NoteServiceProtocol {
         }
     }
 
-    /// Удаляет заметку по `noteID`
     func deleteNote(by id: String) {
         guard let note = fetchNote(by: id) else {
             print("⚠️ Заметка с ID \(id) не найдена.")
@@ -108,33 +102,27 @@ final class NoteService: NoteServiceProtocol {
     }
 }
 
-
-// MARK: - Mock User Service
+// Mock сервис для отладки
 final class MockNoteService: NoteServiceProtocol {
     private var mockNotes: [Note] = []
 
     init() {
-        // Добавляем одну тестовую заметку для примера
         self.mockNotes = [MockDataManager.shared.mockNote()]
     }
 
-    /// Получает заметку по `noteID`
     func fetchNote(by id: String) -> Note? {
         return mockNotes.first(where: { $0.noteID == id })
     }
 
-    /// Получает все заметки, отсортированные по дате создания (от новых к старым)
     func fetchAllNotes() -> [Note] {
         return mockNotes.sorted(by: { $0.dateCreate > $1.dateCreate })
     }
 
-    /// Создаёт новую заметку
     func createNote(_ note: Note) {
         mockNotes.append(note)
         print("✅ (Mock) Заметка создана.")
     }
 
-    /// Обновляет существующую заметку по `noteID`
     func updateNote(by id: String, with newNote: Note) {
         if let index = mockNotes.firstIndex(where: { $0.noteID == id }) {
             mockNotes[index] = newNote
@@ -145,7 +133,6 @@ final class MockNoteService: NoteServiceProtocol {
         }
     }
 
-    /// Удаляет заметку по `noteID`
     func deleteNote(by id: String) {
         if let index = mockNotes.firstIndex(where: { $0.noteID == id }) {
             mockNotes.remove(at: index)

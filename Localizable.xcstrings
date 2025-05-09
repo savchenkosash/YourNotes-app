@@ -11,6 +11,9 @@
         }
       }
     },
+    "+%lld" : {
+
+    },
     "All notes" : {
       "localizations" : {
         "ru" : {
@@ -121,6 +124,17 @@
         }
       }
     },
+    "Images" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Изображения"
+          }
+        }
+      }
+    },
     "New note" : {
       "localizations" : {
         "ru" : {
@@ -196,6 +210,9 @@
           }
         }
       }
+    },
+    "Выбрать изображения" : {
+
     }
   },
   "version" : "1.0"

@@ -16,8 +16,8 @@ struct CreateNoteView: View {
     @State private var subTitle: String = ""
     @State private var isCompleted: Bool = false
     
-    @State private var selectedPhoto: PhotosPickerItem?
-    @State private var noteImage: UIImage?
+    @State private var selectedImages: [PhotosPickerItem] = []
+    @State private var noteImages: [UIImage] = []
     
     var body: some View {
         NavigationStack {
@@ -46,69 +46,51 @@ struct CreateNoteView: View {
                                 .foregroundColor(isCompleted ? .green : .gray)
                                 .font(.system(size: 24))
                             Text("Done!")
-                                
                                 .foregroundColor(.primary)
                         }
                     })
                 }
                 
-                Section {
-                    if let image = noteImage {
-                        ZStack(alignment: .topTrailing) {
-                            Image(uiImage: image)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(height: 200)
-                                .clipShape(RoundedRectangle(cornerRadius: 10))
-                            
-                            Button(action: {
-                                noteImage = nil
-                                selectedPhoto = nil
-                            }) {
-                                Image(systemName: "xmark.circle.fill")
-                                    .foregroundColor(.gray)
-                                    .background(Circle().fill(Color.white))
+                Section(header: Text("Images")) {
+                    
+                    
+                    if !selectedImages.isEmpty {
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack {
+                                ForEach(noteImages, id: \.self) { image in
+                                    ZStack(alignment: .topTrailing) {
+                                        Image(uiImage: image)
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(height: 120)
+                                            .clipShape(RoundedRectangle(cornerRadius: 10))
+
+                                        // Кнопка для удаления изображения
+                                        Button(action: {
+                                            if let index = noteImages.firstIndex(of: image) {
+                                                noteImages.remove(at: index) // Удаляем изображение из массива
+                                            }
+                                        }) {
+                                            Image(systemName: "xmark.circle.fill")
+                                                .foregroundColor(.white)
+                                                .background(Circle().fill(Color.black.opacity(0.5)))
+                                        }
+                                        .padding(8)
+                                    }
+                                }
                             }
-                            .padding(8)
                         }
                     }
-                    
-                    PhotosPicker(selection: $selectedPhoto, matching: .images, photoLibrary: .shared()) {
-                        Label(selectedPhoto == nil ? "Select image" : "Replace image", systemImage: "photo")
+
+                    PhotosPicker(selection: $selectedImages, matching: .images, photoLibrary: .shared()) {
+                        Label(selectedImages.isEmpty ? "Select image" : "Replace image", systemImage: "photo")
+                    }
+                    .onChange(of: selectedImages) { newItems in
+                        ImageLoader.loadImages(from: newItems) { images in
+                            noteImages = images
+                        }
                     }
                 }
-//                Section(header: Text("Изображение")) {
-//                    
-//                    PhotosPicker(selection: $selectedPhoto, matching: .images, photoLibrary: .shared()) {
-//                        Label(selectedPhoto == nil ? "Выбрать изображение" : "Заменить изображение", systemImage: "photo")
-//                    }
-//                    
-//                    if let image = noteImage {
-//                        ZStack(alignment: .topTrailing) {
-//                            Image(uiImage: image)
-//                                .resizable()
-//                                .scaledToFit()
-//                                .frame(height: 200)
-//                                .clipShape(RoundedRectangle(cornerRadius: 10))
-//                            
-//                            Button(action: {
-//                                noteImage = nil
-//                                selectedPhoto = nil
-//                            }) {
-//                                Image(systemName: "xmark.circle.fill")
-//                                    .foregroundColor(.gray)
-//                                    .background(Circle().fill(Color.white))
-//                            }
-//                            .padding(8)
-//                        }
-//                    } else {
-//                        Text("Нет изображения")
-//                            .foregroundColor(.gray)
-//                    }
-//                    
-//                    
-//                    
-//                }
             }
             .navigationBarTitle("New note", displayMode: .inline)
             .navigationBarItems(
@@ -122,16 +104,76 @@ struct CreateNoteView: View {
                 .disabled(subTitle.isEmpty)
             )
         }
-        .onChange(of: selectedPhoto) { _ in
-            ImageLoader.loadImage(from: selectedPhoto) { image in
-                self.noteImage = image
-            }
-        }
+        /*
+//        .onChange(of: selectedImages) { newImages in
+//            ImageLoader.loadImages(from: newImages) { images in
+//                self.noteImages.append(contentsOf: images.compactMap { $0 })
+//            }
+//        }
+        
+//        .onChange(of: selectedImages) { newItem in
+//            Task {
+//                if let data = try? await newItem?.loadTransferable(type: Data.self),
+//                   let uiImage = UIImage(data: data) {
+//                    selectedImages = [uiImage] // Добавляем в массив
+//                }
+//            }
+//        }
+//        .onChange(of: selectedImages) { newImages in
+//            ImageLoader.loadImages(from: newImages) { images in
+//                self.noteImages.append(contentsOf: images.compactMap { $0 })
+//            }
+//        }
+        */
     }
     
+    /*
+//    private func setImages(newItems: [PhotosPickerItem]) {
+//        // Загружаем все выбранные изображения
+//        loadImages(from: newItems) { images in
+//            noteImages = images // Обновляем массив с изображениями
+//        }
+//    }
+//    
+//    private func loadImages(from items: [PhotosPickerItem], completion: @escaping ([UIImage]) -> Void) {
+//        Task {
+//            var loadedImages: [UIImage] = []
+//
+//            // Загружаем каждое изображение
+//            for item in items {
+//                do {
+//                    if let data = try await item.loadTransferable(type: Data.self),
+//                       let uiImage = UIImage(data: data) {
+//                        loadedImages.append(uiImage)
+//                    }
+//                } catch {
+//                    print("Error loading image: \(error)")
+//                }
+//            }
+//            // Передаем все загруженные изображения
+//            completion(loadedImages)
+//        }
+//    }
+    */
+    
+//    private func setImagesByNick(from selections: [PhotosPickerItem]) {
+//        Task {
+//            var images: [UIImage] = []
+//            for selection in selections {
+//                if let data = try? await selection.loadTransferable(type: Data.self) {
+//                    if let uiImage = UIImage(data: data) {
+//                        images.append(uiImage)
+//                    }
+//                }
+//            }
+//            
+//            noteImages = images
+//        }
+//    }
+    
     private func saveNote() {
-        let imageData = noteImage?.jpegData(compressionQuality: 0.8)
-        noteViewModel.createNote(title: title, subTitle: subTitle, imageData: imageData, isCompleted: isCompleted)
+        let imageData = noteImages.compactMap { $0.jpegData(compressionQuality: 0.8) }
+        noteViewModel.createNote(title: title, subTitle: subTitle, imagesData: imageData, isCompleted: isCompleted)
         dismiss()
     }
 }
