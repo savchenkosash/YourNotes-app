@@ -24,7 +24,6 @@
 		115A96DF2B739F5200E0566F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 115A96DE2B739F5200E0566F /* Assets.xcassets */; };
 		115A96E22B739F5200E0566F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 115A96E12B739F5200E0566F /* Preview Assets.xcassets */; };
 		11D369962DBCEC2B005A9E31 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 11D369952DBCEC2B005A9E31 /* Localizable.xcstrings */; };
-		11DA44F92DC24C0300147B52 /* test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11DA44F82DC24C0000147B52 /* test.swift */; };
 		11DD8FDB2B99053E00B9D544 /* SFSafeSymbols in Frameworks */ = {isa = PBXBuildFile; productRef = 11DD8FDA2B99053E00B9D544 /* SFSafeSymbols */; };
 /* End PBXBuildFile section */
 
@@ -46,7 +45,6 @@
 		115A96E12B739F5200E0566F /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		115A96E82B739F5200E0566F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		11D369952DBCEC2B005A9E31 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
-		11DA44F82DC24C0000147B52 /* test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,7 +126,6 @@
 		115A96D92B739F4F00E0566F /* YourNotes */ = {
 			isa = PBXGroup;
 			children = (
-				11DA44F82DC24C0000147B52 /* test.swift */,
 				11194DA32DA3FB370039AFC3 /* App */,
 				115A96F22B739FEF00E0566F /* Models */,
 				11194D9B2DA3F8E00039AFC3 /* Service */,
@@ -243,7 +240,6 @@
 				11194DBD2DA402A90039AFC3 /* NoteCardView.swift in Sources */,
 				11194DA22DA3FA5D0039AFC3 /* MockDataManager.swift in Sources */,
 				11194DC42DA425270039AFC3 /* CreateNoteView.swift in Sources */,
-				11DA44F92DC24C0300147B52 /* test.swift in Sources */,
 				11194DB32DA3FC300039AFC3 /* NoteViewModel.swift in Sources */,
 				11194DAF2DA3FBFD0039AFC3 /* AppContainer.swift in Sources */,
 				11194DBB2DA3FE850039AFC3 /* ContentView.swift in Sources */,
