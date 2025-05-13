@@ -7,8 +7,6 @@
 
 import Foundation
 import SwiftUI
-// import UIKit
-
 
 final class MockDataManager {
     static let shared = MockDataManager()
@@ -16,14 +14,28 @@ final class MockDataManager {
     private init() {}
 
     func mockNote() -> Note {
-           let image = UIImage(named: "nullProfile")?.jpegData(compressionQuality: 0.8)
+        // Загружаем одно или несколько изображений из ресурсов
+        var imagesData: [Data] = []
+
+        if let image1 = UIImage(named: "sampleImage1")?.jpegData(compressionQuality: 0.8) {
+            imagesData.append(image1)
+        }
+
+        if let image2 = UIImage(named: "sampleImage2")?.jpegData(compressionQuality: 0.8) {
+            imagesData.append(image2)
+        }
+        
+        if let image3 = UIImage(named: "sampleImage2")?.jpegData(compressionQuality: 0.8) {
+            imagesData.append(image3)
+        }
 
         return Note(
-            noteImage: image,
+            noteImages: imagesData,
             title: "First note",
             subTitle: "This is first note subtitle",
             isCompleted: false,
             dateCreate: Calendar.current.date(byAdding: .year, value: -30, to: Date()) ?? Date()
-       )
+        )
     }
 }
+

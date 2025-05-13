@@ -21,36 +21,33 @@ class NoteViewModel: ObservableObject {
         loadAllNotes()
     }
 
-    // 🔍 Загрузка конкретной заметки по `noteID`
     func loadNote(by id: String) {
         self.note = noteService.fetchNote(by: id)
     }
 
-    // 🔍 Загрузка всех заметок
     func loadAllNotes() {
         self.allNotes = noteService.fetchAllNotes()
     }
 
     // 💾 Создание новой заметки
-    func createNote(title: String, subTitle: String, imageData: Data? = nil, isCompleted: Bool = false) {
-        let newNote = Note(noteImage: imageData, title: title, subTitle: subTitle, isCompleted: isCompleted)
+    func createNote(title: String, subTitle: String, imagesData: [Data]? = nil, isCompleted: Bool = false) {
+        let newNote = Note(noteImages: imagesData, title: title, subTitle: subTitle, isCompleted: isCompleted)
         noteService.createNote(newNote)
         loadAllNotes()
         print("✅ Новая заметка создана.")
     }
 
     // ✏️ Обновление данных существующей заметки
-    func updateNote(title: String, subTitle: String, imageData: Data? = nil, isCompleted: Bool = false) {
+    func updateNote(title: String, subTitle: String, imagesData: [Data]? = nil, isCompleted: Bool = false) {
         guard let note = note else { return }
 
         note.title = title
         note.subTitle = subTitle
-        note.noteImage = imageData
+        note.noteImages = imagesData
         note.isCompleted = isCompleted
 
         noteService.updateNote(by: note.noteID, with: note)
         
-        // 🔥 Загружаем обновлённую версию заметки
         loadNote(by: note.noteID)
         loadAllNotes()
         print("✅ Заметка обновлена.")

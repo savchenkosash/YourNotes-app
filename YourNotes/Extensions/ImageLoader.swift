@@ -9,36 +9,30 @@ import SwiftUI
 import PhotosUI
 
 class ImageLoader {
-    static func loadImage(from selectedPhoto: PhotosPickerItem?, completion: @escaping (UIImage?) -> Void) {
-        guard let selectedPhoto else {
-            completion(nil)
-            return
-        }
         
-        Task {
-            if let data = try? await selectedPhoto.loadTransferable(type: Data.self),
-               let uiImage = UIImage(data: data) {
-                DispatchQueue.main.async {
-                    completion(uiImage)
+    static func loadImages(from items: [PhotosPickerItem], completion: @escaping ([UIImage]) -> Void) {
+            Task {
+                var loadedImages: [UIImage] = []
+    
+                // Загружаем каждое изображение
+                for item in items {
+                    do {
+                        if let data = try await item.loadTransferable(type: Data.self),
+                           let uiImage = UIImage(data: data) {
+                            loadedImages.append(uiImage)
+                        }
+                    } catch {
+                        print("Error loading image: \(error)")
+                    }
                 }
-            } else {
-                DispatchQueue.main.async {
-                    completion(nil)
-                }
+                completion(loadedImages)
             }
         }
-    }
-    
-    static func imageFromData(data: Data?) -> UIImage? {
+
+    static func imageFromData(data: [Data]?) -> [UIImage]? {
         guard let data = data else { return nil }
-        return UIImage(data: data)
+        return data.compactMap { UIImage(data: $0) }
     }
-    
-//    static func clearImage(completion: @escaping () -> Void) {
-//        DispatchQueue.main.async {
-//            completion()
-//        }
-//    }
-    
 }
+
 

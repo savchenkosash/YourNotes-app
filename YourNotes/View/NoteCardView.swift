@@ -14,9 +14,6 @@ struct NoteCardView: View {
     
     @State private var showAlert: Bool = false
     
-    //    @EnvironmentObject var noteViewModel: NoteViewModel
-    //    @Environment(\.dismiss) var dismiss
-    
     var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: 5) {
@@ -25,7 +22,7 @@ struct NoteCardView: View {
                         .frame(maxHeight: 20)
                         .font(.headline)
                     Spacer()
-                    // 🏁 Иконка завершения
+                    // Иконка завершения
                     Image(systemName: note.isCompleted ? "checkmark.circle.fill" : "circle")
                         .foregroundColor(note.isCompleted ? .green : .gray)
                         .font(.title2)
@@ -37,51 +34,83 @@ struct NoteCardView: View {
                 
                 Spacer()
                 
-                if let image = ImageLoader.imageFromData(data: note.noteImage ?? Data()) {
+                if let imagesData = note.noteImages, !imagesData.isEmpty {
                     
-                        Image(uiImage: image)
-                            .resizable()
-                            .scaledToFit()
-//                            .frame(height: 200)
-                            .clipShape(RoundedRectangle(cornerRadius: 10))
-                        .padding(8)
+                    HStack(alignment: .center ,spacing: 8) {
+                    // Если у нас одно изображение, то делаем его больше
+                        if note.noteImages?.count == 1 {
+                            ForEach(imagesData, id: \.self) { data in
+                                    if let image = UIImage(data: data) {
+                                        Image(uiImage: image)
+                                            .resizable()
+                                            .scaledToFit()
+                                            .clipShape(RoundedRectangle(cornerRadius: 10))
+//                                            .padding(8)
+                                }
+                            }
+                        } else {
+                            // Если несколько
+                            ForEach(Array(imagesData.prefix(2)), id: \.self) { data in
+                                if let image = UIImage(data: data) {
+                                    Image(uiImage: image)
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: 40, height: 50, alignment: .center)
+                                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                                }
+                            }
+                        }
+                        
+                        // Добавляем "+n", если изображений больше двух
+                        if imagesData.count > 2 {
+                            VStack {
+                                let extraCount = imagesData.count - 2
+                                    Text("+\(extraCount)")
+                                        .font(.callout)
+                                        .foregroundColor(.gray)
+                                        .frame(width: 20, height: 20)
+                            }
+                        }
+                    }
+                    .padding(8)
                 }
             }
         }
         .frame(width: UIScreen.main.bounds.width * 0.35, height: UIScreen.main.bounds.height * 0.22, alignment: .center)
         .padding()
-        .background(RoundedRectangle(cornerRadius: 20).fill(Color(.tertiarySystemBackground)))
+        .background(RoundedRectangle(cornerRadius: 15).fill(Color(.tertiarySystemBackground)))
+        // Меню долгого нажатия
         .contextMenu(menuItems: {
             Button(action: {
                 withAnimation(.easeInOut(duration: 0.2)){
-//                    onDelete(note.noteID)
                     showAlert.toggle()
                 }
-                }, label: {
-                    HStack {
-                        Text("Delete")
-                        Image(systemName: "trash")
-                            .foregroundColor(.red)
-                    }
+            }, label: {
+                HStack {
+                    Text("Delete")
+                    Image(systemName: "trash")
+                        .foregroundColor(.red)
+                }
             })
             Button(action: {
                 withAnimation(.spring()) {
+                    // Переключаем статус завершенности
                     note.isCompleted.toggle()
-                    }
-                }, label: {
+                }
+            }, label: {
+                HStack {
+                    if note.isCompleted {
                         HStack {
-                            if note.isCompleted {
-                                HStack {
-                                    Text("Not done")
-                                    Image(systemName: "xmark")
-                                }
-                            } else {
-                                HStack {
-                                    Text("Done!")
-                                    Image(systemName: "checkmark")
-                                }
-                            }
+                            Text("Not done")
+                            Image(systemName: "xmark")
+                        }
+                    } else {
+                        HStack {
+                            Text("Done!")
+                            Image(systemName: "checkmark")
+                        }
                     }
+                }
             })
         })
         .alert(isPresented: $showAlert, content: getAlert)
@@ -97,12 +126,17 @@ struct NoteCardView: View {
                         }
                 }))
     }
-    
 }
 
 #Preview {
     let mockNote = MockDataManager.shared.mockNote()
-
+    
+    // Моковые изображения для теста
+    let imageData = [UIImage(named: "sampleImage2")?.jpegData(compressionQuality: 0.8),
+                     UIImage(named: "sampleImage1")?.jpegData(compressionQuality: 0.8),
+                     UIImage(named: "sampleImage2")?.jpegData(compressionQuality: 0.8)].compactMap { $0 }
+    mockNote.noteImages = imageData
+    
     return NoteCardView(note: mockNote, onDelete: { noteID in
         print("Удаление заметки с ID: \(noteID) в превью")
     })

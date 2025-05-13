@@ -1,10 +1,3 @@
-//
-//  EditNoteView.swift
-//  YourNotes
-//
-//  Created by alexander on 7.04.25.
-//
-
 import SwiftUI
 import PhotosUI
 
@@ -13,25 +6,25 @@ struct EditNoteView: View {
     @EnvironmentObject var noteViewModel: NoteViewModel
     @Environment(\.dismiss) var dismiss
     
-    @State private var selectedPhoto: PhotosPickerItem?
+    @State private var selectedImages: [PhotosPickerItem] = [] // Список выбранных фотографий
     
     let note: Note
     @State private var title: String
     @State private var subTitle: String
     @State private var isCompleted: Bool
-    @State private var noteImage: UIImage?
+    @State private var noteImages: [UIImage] = [] // Массив изображений
     
     @State private var showAlert: Bool = false
-
+    
     init(note: Note) {
         self.note = note
         _title = State(initialValue: note.title)
         _subTitle = State(initialValue: note.subTitle)
         _isCompleted = State(initialValue: note.isCompleted)
         
-        // Загружаем изображение, если оно есть
-        if let imageData = note.noteImage, let image = UIImage(data: imageData) {
-            _noteImage = State(initialValue: image)
+        // Загружаем изображения, если они есть
+        if let imageDataArray = note.noteImages {
+            _noteImages = State(initialValue: imageDataArray.compactMap { UIImage(data: $0) })
         }
     }
     
@@ -62,36 +55,50 @@ struct EditNoteView: View {
                                 .foregroundColor(isCompleted ? .green : .gray)
                                 .font(.system(size: 24))
                             Text("Done!")
-                                
                                 .foregroundColor(.primary)
                         }
                     })
                 }
                 
-                Section {
-                    if let image = noteImage {
-                        ZStack(alignment: .topTrailing) {
-                            Image(uiImage: image)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(height: 120)
-                                .clipShape(RoundedRectangle(cornerRadius: 10))
-                            
-                            Button(action: {
-                                noteImage = nil
-                                selectedPhoto = nil
-                            }) {
-                                Image(systemName: "xmark.circle.fill")
-                                    .foregroundColor(.gray)
-                                    .background(Circle().fill(Color.white))
+                Section(header: Text("Images")) {
+ 
+                    if !noteImages.isEmpty {
+                        // Проходим по всем изображениям в массиве noteImages
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack {
+                                ForEach(noteImages, id: \.self) { image in
+                                    ZStack(alignment: .topTrailing) {
+                                        Image(uiImage: image)
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(height: 120)
+                                            .clipShape(RoundedRectangle(cornerRadius: 10))
+
+                                        // Кнопка для удаления изображения
+                                        Button(action: {
+                                            if let index = noteImages.firstIndex(of: image) {
+                                                noteImages.remove(at: index)
+                                            }
+                                        }) {
+                                            Image(systemName: "xmark.circle.fill")
+                                                .foregroundColor(.white)
+                                                .background(Circle().fill(Color.black.opacity(0.5)))
+                                        }
+                                        .padding(8)
+                                    }
+                                }
                             }
-                            .padding(8)
                         }
                     }
                     
-                    PhotosPicker(selection: $selectedPhoto, matching: .images, photoLibrary: .shared()) {
-                        Label(selectedPhoto == nil ? "Select image" : "Replace image", systemImage: "photo")
+                    PhotosPicker(selection: $selectedImages, matching: .images, photoLibrary: .shared()) {
+                        Label(selectedImages.isEmpty ? "Select image" : "Replace image", systemImage: "photo")
                     }
+                        .onChange(of: selectedImages) { newItems in
+                            ImageLoader.loadImages(from: newItems) { images in
+                                noteImages = images
+                            }
+                        }
                 }
             }
             .navigationBarTitle("Edit note", displayMode: .inline)
@@ -107,19 +114,13 @@ struct EditNoteView: View {
                 .fontWeight(.bold)
                 .disabled(subTitle.isEmpty)
             )
-
-        }
-        .onChange(of: selectedPhoto) { _ in
-            ImageLoader.loadImage(from: selectedPhoto) { image in
-                self.noteImage = image
-            }
         }
         .alert(isPresented: $showAlert, content: getAlert)
     }
     
     private func saveNote() {
-        let imageData = noteImage?.jpegData(compressionQuality: 0.8)
-        noteViewModel.updateNote(title: title, subTitle: subTitle, imageData: imageData, isCompleted: isCompleted)
+        let imageDataArray = noteImages.compactMap { $0.jpegData(compressionQuality: 0.8) }
+        noteViewModel.updateNote(title: title, subTitle: subTitle, imagesData: imageDataArray, isCompleted: isCompleted)
         dismiss()
     }
     
@@ -128,19 +129,19 @@ struct EditNoteView: View {
                      message: Text("Are you sure you want to delete the note?"),
                      primaryButton: .default(Text("Cancel")),
                      secondaryButton: .destructive(Text("Delete"), action: {
-                    noteViewModel.deleteNote(by: note.noteID)
-                    dismiss()
-                }))
+                        noteViewModel.deleteNote(by: note.noteID)
+                        dismiss()
+                    }))
     }
-    
 }
 
 #Preview {
     let mockService = MockNoteService()
     let mockViewModel = NoteViewModel(noteService: mockService)
     let mockNote = MockDataManager.shared.mockNote()
-
+    
     return EditNoteView(note: mockNote)
-    .environmentObject(mockViewModel)
+        .environmentObject(mockViewModel)
 }
+
 
