@@ -54,7 +54,7 @@ struct CreateNoteView: View {
                 Section(header: Text("Images")) {
                     
                     
-                    if !selectedImages.isEmpty {
+                    if !noteImages.isEmpty {
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack {
                                 ForEach(noteImages, id: \.self) { image in
@@ -68,7 +68,7 @@ struct CreateNoteView: View {
                                         // Кнопка для удаления изображения
                                         Button(action: {
                                             if let index = noteImages.firstIndex(of: image) {
-                                                noteImages.remove(at: index) // Удаляем изображение из массива
+                                                noteImages.remove(at: index)
                                             }
                                         }) {
                                             Image(systemName: "xmark.circle.fill")
@@ -85,11 +85,11 @@ struct CreateNoteView: View {
                     PhotosPicker(selection: $selectedImages, matching: .images, photoLibrary: .shared()) {
                         Label(selectedImages.isEmpty ? "Select image" : "Replace image", systemImage: "photo")
                     }
-                    .onChange(of: selectedImages) { newItems in
-                        ImageLoader.loadImages(from: newItems) { images in
-                            noteImages = images
+                        .onChange(of: selectedImages) { newItems in
+                            ImageLoader.loadImages(from: newItems) { images in
+                                noteImages = images
+                            }
                         }
-                    }
                 }
             }
             .navigationBarTitle("New note", displayMode: .inline)
@@ -104,72 +104,7 @@ struct CreateNoteView: View {
                 .disabled(subTitle.isEmpty)
             )
         }
-        /*
-//        .onChange(of: selectedImages) { newImages in
-//            ImageLoader.loadImages(from: newImages) { images in
-//                self.noteImages.append(contentsOf: images.compactMap { $0 })
-//            }
-//        }
-        
-//        .onChange(of: selectedImages) { newItem in
-//            Task {
-//                if let data = try? await newItem?.loadTransferable(type: Data.self),
-//                   let uiImage = UIImage(data: data) {
-//                    selectedImages = [uiImage] // Добавляем в массив
-//                }
-//            }
-//        }
-//        .onChange(of: selectedImages) { newImages in
-//            ImageLoader.loadImages(from: newImages) { images in
-//                self.noteImages.append(contentsOf: images.compactMap { $0 })
-//            }
-//        }
-        */
     }
-    
-    /*
-//    private func setImages(newItems: [PhotosPickerItem]) {
-//        // Загружаем все выбранные изображения
-//        loadImages(from: newItems) { images in
-//            noteImages = images // Обновляем массив с изображениями
-//        }
-//    }
-//    
-//    private func loadImages(from items: [PhotosPickerItem], completion: @escaping ([UIImage]) -> Void) {
-//        Task {
-//            var loadedImages: [UIImage] = []
-//
-//            // Загружаем каждое изображение
-//            for item in items {
-//                do {
-//                    if let data = try await item.loadTransferable(type: Data.self),
-//                       let uiImage = UIImage(data: data) {
-//                        loadedImages.append(uiImage)
-//                    }
-//                } catch {
-//                    print("Error loading image: \(error)")
-//                }
-//            }
-//            // Передаем все загруженные изображения
-//            completion(loadedImages)
-//        }
-//    }
-    */
-    
-//    private func setImagesByNick(from selections: [PhotosPickerItem]) {
-//        Task {
-//            var images: [UIImage] = []
-//            for selection in selections {
-//                if let data = try? await selection.loadTransferable(type: Data.self) {
-//                    if let uiImage = UIImage(data: data) {
-//                        images.append(uiImage)
-//                    }
-//                }
-//            }
-//            
-//            noteImages = images
-//        }
-//    }
     
     private func saveNote() {
         let imageData = noteImages.compactMap { $0.jpegData(compressionQuality: 0.8) }

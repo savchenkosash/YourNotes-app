@@ -77,7 +77,7 @@ struct EditNoteView: View {
                                         // Кнопка для удаления изображения
                                         Button(action: {
                                             if let index = noteImages.firstIndex(of: image) {
-                                                noteImages.remove(at: index) // Удаляем изображение из массива
+                                                noteImages.remove(at: index)
                                             }
                                         }) {
                                             Image(systemName: "xmark.circle.fill")
@@ -90,45 +90,15 @@ struct EditNoteView: View {
                             }
                         }
                     }
-
-                    
-//                    if !selectedImages.isEmpty {
-//                        ScrollView(.horizontal, showsIndicators: true) {
-//                            HStack {
-//                                ForEach(noteImages, id: \.self) { image in
-//                                    ZStack(alignment: .topTrailing) {
-//                                        Image(uiImage: image)
-//                                            .resizable()
-//                                            .scaledToFit()
-//                                            .frame(height: 200)
-//                                            .clipShape(RoundedRectangle(cornerRadius: 10))
-//                                        
-//                                        Button(action: {
-//                                            if let index = noteImages.firstIndex(of: image) {
-//                                                noteImages.remove(at: index)
-//                                                selectedImages.remove(at: index)
-//                                            }
-//                                            
-//                                        }) {
-//                                            Image(systemName: "xmark.circle.fill")
-//                                                .foregroundColor(.gray)
-//                                                .background(Circle().fill(Color.white))
-//                                        }
-//                                        .padding(8)
-//                                    }
-//                                }
-//                            }
-//                        }
-//                    }
                     
                     PhotosPicker(selection: $selectedImages, matching: .images, photoLibrary: .shared()) {
                         Label(selectedImages.isEmpty ? "Select image" : "Replace image", systemImage: "photo")
                     }
-                    .onChange(of: selectedImages) { newItems in
-                        ImageLoader.loadImages(from: newItems) { images in
-                            noteImages = images
+                        .onChange(of: selectedImages) { newItems in
+                            ImageLoader.loadImages(from: newItems) { images in
+                                noteImages = images
+                            }
                         }
-                    }
                 }
             }
             .navigationBarTitle("Edit note", displayMode: .inline)
@@ -145,23 +115,8 @@ struct EditNoteView: View {
                 .disabled(subTitle.isEmpty)
             )
         }
-//        .onChange(of: selectedPhotos) { _ in
-//            loadImagesFromPhotosPicker()
-//        }
         .alert(isPresented: $showAlert, content: getAlert)
     }
-    
-//    // Функция для загрузки изображений
-//    private func loadImagesFromPhotosPicker() {
-//        Task {
-//            for item in selectedPhotos {
-//                if let data = try? await item.loadTransferable(type: Data.self),
-//                   let image = UIImage(data: data) {
-//                    noteImages.append(image) // Добавляем новое изображение в массив
-//                }
-//            }
-//        }
-//    }
     
     private func saveNote() {
         let imageDataArray = noteImages.compactMap { $0.jpegData(compressionQuality: 0.8) }

@@ -25,39 +25,9 @@ class ImageLoader {
                         print("Error loading image: \(error)")
                     }
                 }
-                // Передаем все загруженные изображения
                 completion(loadedImages)
             }
         }
-    
-    
-//    // Метод для загрузки нескольких изображений
-//    static func loadImages(from selectedPhotos: [PhotosPickerItem]?, completion: @escaping ([UIImage?]) -> Void) {
-//        guard let selectedPhotos = selectedPhotos, !selectedPhotos.isEmpty else {
-//            completion([])
-//            return
-//        }
-//
-//        Task {
-//            var loadedImages: [UIImage?] = []
-//
-//            for item in selectedPhotos {
-//                if let data = try? await item.loadTransferable(type: Data.self),
-//                   let image = UIImage(data: data) {
-//                    loadedImages.append(image)
-//                } else {
-//                    loadedImages.append(nil)
-//                }
-//            }
-//
-//            // Вызовем completion после загрузки всех изображений
-//            DispatchQueue.main.async {
-//                completion(loadedImages)
-//            }
-//        }
-//    }
-    
-    
 
     static func imageFromData(data: [Data]?) -> [UIImage]? {
         guard let data = data else { return nil }

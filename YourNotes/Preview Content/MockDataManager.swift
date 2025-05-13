@@ -17,12 +17,16 @@ final class MockDataManager {
         // Загружаем одно или несколько изображений из ресурсов
         var imagesData: [Data] = []
 
-        if let image1 = UIImage(named: "nullProfile")?.jpegData(compressionQuality: 0.8) {
+        if let image1 = UIImage(named: "sampleImage1")?.jpegData(compressionQuality: 0.8) {
             imagesData.append(image1)
         }
 
-        if let image2 = UIImage(named: "sampleImage")?.jpegData(compressionQuality: 0.8) {
+        if let image2 = UIImage(named: "sampleImage2")?.jpegData(compressionQuality: 0.8) {
             imagesData.append(image2)
+        }
+        
+        if let image3 = UIImage(named: "sampleImage2")?.jpegData(compressionQuality: 0.8) {
+            imagesData.append(image3)
         }
 
         return Note(

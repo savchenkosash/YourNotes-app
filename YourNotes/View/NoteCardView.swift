@@ -22,7 +22,7 @@ struct NoteCardView: View {
                         .frame(maxHeight: 20)
                         .font(.headline)
                     Spacer()
-                    // 🏁 Иконка завершения
+                    // Иконка завершения
                     Image(systemName: note.isCompleted ? "checkmark.circle.fill" : "circle")
                         .foregroundColor(note.isCompleted ? .green : .gray)
                         .font(.title2)
@@ -36,50 +36,50 @@ struct NoteCardView: View {
                 
                 if let imagesData = note.noteImages, !imagesData.isEmpty {
                     
-                    HStack(spacing: 8) {
-                        ForEach(Array(imagesData.prefix(1)), id: \.self) { data in
-                            if let image = UIImage(data: data) {
-                                Image(uiImage: image)
-                                    .resizable()
-                                    .scaledToFit()
-//                                    .frame(height: 100)
-                                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                    HStack(alignment: .center ,spacing: 8) {
+                    // Если у нас одно изображение, то делаем его больше
+                        if note.noteImages?.count == 1 {
+                            ForEach(imagesData, id: \.self) { data in
+                                    if let image = UIImage(data: data) {
+                                        Image(uiImage: image)
+                                            .resizable()
+                                            .scaledToFit()
+                                            .clipShape(RoundedRectangle(cornerRadius: 10))
+//                                            .padding(8)
+                                }
+                            }
+                        } else {
+                            // Если несколько
+                            ForEach(Array(imagesData.prefix(2)), id: \.self) { data in
+                                if let image = UIImage(data: data) {
+                                    Image(uiImage: image)
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: 40, height: 50, alignment: .center)
+                                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                                }
                             }
                         }
                         
                         // Добавляем "+n", если изображений больше двух
-                        if imagesData.count > 1 {
-                            let extraCount = imagesData.count - 1
-                            Text("+\(extraCount)")
-                                .font(.callout)
-                                .foregroundColor(.gray)
-                                .frame(width: 20, height: 20)
-//                                .background(Color(.systemGray5))
-//                                .clipShape(Circle())
+                        if imagesData.count > 2 {
+                            VStack {
+                                let extraCount = imagesData.count - 2
+                                    Text("+\(extraCount)")
+                                        .font(.callout)
+                                        .foregroundColor(.gray)
+                                        .frame(width: 20, height: 20)
+                            }
                         }
                     }
-//                    .frame(height: 60)
                     .padding(8)
-
-//                    
-//                        HStack(spacing: 8) {
-//                            ForEach(imagesData, id: \.self) { data in
-//                                if let image = UIImage(data: data) {
-//                                    Image(uiImage: image)
-//                                        .resizable()
-//                                        .scaledToFit()
-////                                        .frame(height: 100) // Высота изображений
-//                                        .clipShape(RoundedRectangle(cornerRadius: 10))
-//                                }
-//                            }
-//                        }
-//                        .padding(8)
                 }
             }
         }
         .frame(width: UIScreen.main.bounds.width * 0.35, height: UIScreen.main.bounds.height * 0.22, alignment: .center)
         .padding()
-        .background(RoundedRectangle(cornerRadius: 20).fill(Color(.tertiarySystemBackground)))
+        .background(RoundedRectangle(cornerRadius: 15).fill(Color(.tertiarySystemBackground)))
+        // Меню долгого нажатия
         .contextMenu(menuItems: {
             Button(action: {
                 withAnimation(.easeInOut(duration: 0.2)){
@@ -132,8 +132,9 @@ struct NoteCardView: View {
     let mockNote = MockDataManager.shared.mockNote()
     
     // Моковые изображения для теста
-    let imageData = [UIImage(named: "mockImage1")?.jpegData(compressionQuality: 0.8),
-                     UIImage(named: "mockImage2")?.jpegData(compressionQuality: 0.8)].compactMap { $0 }
+    let imageData = [UIImage(named: "sampleImage2")?.jpegData(compressionQuality: 0.8),
+                     UIImage(named: "sampleImage1")?.jpegData(compressionQuality: 0.8),
+                     UIImage(named: "sampleImage2")?.jpegData(compressionQuality: 0.8)].compactMap { $0 }
     mockNote.noteImages = imageData
     
     return NoteCardView(note: mockNote, onDelete: { noteID in
