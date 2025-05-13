@@ -5,7 +5,7 @@
 //  Created by alexander on 7.04.25.
 //
 
-import SwiftUI
+import SwiftUI 
 import SwiftData
 
 struct Home: View {
