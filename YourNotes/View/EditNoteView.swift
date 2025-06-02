@@ -191,6 +191,25 @@ struct EditNoteView: View {
                             }
                         }
                     }
+                    
+                    
+
+                    
+                            VStack(spacing: 20) {
+                                Text("Удалить все сохранённые изображения")
+                                    .font(.headline)
+                                
+                                Button(action: {
+                                    deleteAllImagesFromDocuments()
+                                }) {
+                                    Text("Очистить изображения")
+                                        .foregroundColor(.white)
+                                        .padding()
+                                        .background(Color.red)
+                                        .cornerRadius(8)
+                                }
+                            }
+                            .padding()
                 }
             }
             .navigationBarTitle("Edit note", displayMode: .inline)
@@ -208,6 +227,29 @@ struct EditNoteView: View {
             )
         }
         .alert(isPresented: $showAlert, content: getAlert)
+    }
+    
+    func deleteAllImagesFromDocuments() {
+        let fileManager = FileManager.default
+        let documentsURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
+
+        do {
+            let files = try fileManager.contentsOfDirectory(at: documentsURL, includingPropertiesForKeys: nil)
+            for fileURL in files {
+                let ext = fileURL.pathExtension.lowercased()
+                if ext == "jpg" || ext == "jpeg" || ext == "png" {
+                    do {
+                        try fileManager.removeItem(at: fileURL)
+                        print("Удалён файл: \(fileURL.lastPathComponent)")
+                    } catch {
+                        print("Ошибка удаления файла \(fileURL.lastPathComponent): \(error.localizedDescription)")
+                    }
+                }
+            }
+            print("✅ Все изображения из Documents удалены.")
+        } catch {
+            print("Ошибка чтения содержимого папки Documents: \(error.localizedDescription)")
+        }
     }
     
     private func saveNote() {

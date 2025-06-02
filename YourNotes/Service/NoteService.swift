@@ -72,7 +72,22 @@ final class NoteService: NoteServiceProtocol {
             print("⚠️ Заметка с ID \(id) не найдена.")
             return
         }
+        
+        // Вот тут надо:
+        // 1. Удалить файлы из existingNote.noteImagePaths, которых нет в newNote.noteImagePaths
+        // 2. Сохранить новые данные
 
+        // Для удаления:
+        let oldPaths = existingNote.noteImagePaths
+        let newPaths = newNote.noteImagePaths
+
+        // Удаляем файлы, которых нет в новых путях
+        for oldPath in oldPaths {
+            if !newPaths.contains(oldPath) {
+                ImageFileManager.deleteImage(filename: oldPath)
+            }
+        }
+        
         existingNote.noteImages = newNote.noteImages
         existingNote.title = newNote.title
         existingNote.subTitle = newNote.subTitle
@@ -93,6 +108,13 @@ final class NoteService: NoteServiceProtocol {
             print("⚠️ Заметка с ID \(id) не найдена.")
             return
         }
+        
+        // Удаляем все изображения из файловой системы
+        for filename in note.noteImagePaths {
+            ImageFileManager.deleteImage(filename: filename)
+            print("Удалены файлы изображений \(filename)")
+        }
+        
         context.delete(note)
         do {
             try context.save()
