@@ -25,6 +25,7 @@
 		115A96E22B739F5200E0566F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 115A96E12B739F5200E0566F /* Preview Assets.xcassets */; };
 		11D369962DBCEC2B005A9E31 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 11D369952DBCEC2B005A9E31 /* Localizable.xcstrings */; };
 		11DD8FDB2B99053E00B9D544 /* SFSafeSymbols in Frameworks */ = {isa = PBXBuildFile; productRef = 11DD8FDA2B99053E00B9D544 /* SFSafeSymbols */; };
+		11FE79092DDBC38B004ED85B /* ImageLoaderFM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11FE79082DDBC383004ED85B /* ImageLoaderFM.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,6 +46,7 @@
 		115A96E12B739F5200E0566F /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		115A96E82B739F5200E0566F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		11D369952DBCEC2B005A9E31 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		11FE79082DDBC383004ED85B /* ImageLoaderFM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoaderFM.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +104,7 @@
 			isa = PBXGroup;
 			children = (
 				11199AA02DA5435300C9D115 /* ImageLoader.swift */,
+				11FE79082DDBC383004ED85B /* ImageLoaderFM.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -241,6 +244,7 @@
 				11194DA22DA3FA5D0039AFC3 /* MockDataManager.swift in Sources */,
 				11194DC42DA425270039AFC3 /* CreateNoteView.swift in Sources */,
 				11194DB32DA3FC300039AFC3 /* NoteViewModel.swift in Sources */,
+				11FE79092DDBC38B004ED85B /* ImageLoaderFM.swift in Sources */,
 				11194DAF2DA3FBFD0039AFC3 /* AppContainer.swift in Sources */,
 				11194DBB2DA3FE850039AFC3 /* ContentView.swift in Sources */,
 				11194D992DA3F8110039AFC3 /* Note.swift in Sources */,

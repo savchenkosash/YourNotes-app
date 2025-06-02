@@ -16,16 +16,42 @@ struct EditNoteView: View {
     
     @State private var showAlert: Bool = false
     
+    @State private var selectedImagesFM: [PhotosPickerItem] = []
+    @State private var noteImagesFM: [UIImage] = []
+    @State private var noteImagePaths: [String] = [] // хранит пути к изображениям из FM
+    
+    
     init(note: Note) {
         self.note = note
         _title = State(initialValue: note.title)
         _subTitle = State(initialValue: note.subTitle)
         _isCompleted = State(initialValue: note.isCompleted)
+//        _noteImagesFM = State(initialValue: [])
         
         // Загружаем изображения, если они есть
         if let imageDataArray = note.noteImages {
             _noteImages = State(initialValue: imageDataArray.compactMap { UIImage(data: $0) })
         }
+        
+        var imagesFromPaths: [UIImage] = []
+        for path in note.noteImagePaths {
+            if let image = ImageFileManager.loadImage(filename: path) {
+                imagesFromPaths.append(image)
+            }
+        }
+        _noteImagesFM = State(initialValue: imagesFromPaths)
+        _noteImagePaths = State(initialValue: note.noteImagePaths)
+        
+//        if let paths = note.noteImagePaths {
+//            var imagesFromPaths: [UIImage] = []
+//            for path in paths {
+//                if let image = ImageFileManager.loadImage(filename: path) {
+//                    imagesFromPaths.append(image)
+//                }
+//            }
+//            _noteImagesFM = State(initialValue: imagesFromPaths)
+//            _noteImagePaths = State(initialValue: paths)
+//        }
     }
     
     var body: some View {
@@ -100,6 +126,72 @@ struct EditNoteView: View {
                             }
                         }
                 }
+                
+                Section(header: Text("FM Images")) {
+                    
+                    if !noteImagesFM.isEmpty {
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack {
+                                ForEach(Array(noteImagesFM.enumerated()), id: \.element) { index, image in
+                                    ZStack(alignment: .topTrailing) {
+                                        Image(uiImage: image)
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(height: 120)
+                                            .clipShape(RoundedRectangle(cornerRadius: 10))
+
+                                        // Кнопка для удаления изображения - need fix
+                                        Button(action: {
+//                                            if let index = noteImagesFM.firstIndex(of: image) {
+//                                                noteImagesFM.remove(at: index)
+//                                            }
+                                            // Сначала удаляем файл с диска
+                                            let filename = noteImagePaths[index]
+                                            ImageFileManager.deleteImage(filename: filename)
+                                            
+                                            // Удаляем из массива путей и изображений
+                                            noteImagePaths.remove(at: index)
+                                            noteImagesFM.remove(at: index)
+                                        }) {
+                                            Image(systemName: "xmark.circle.fill")
+                                                .foregroundColor(.white)
+                                                .background(Circle().fill(Color.black.opacity(0.5)))
+                                        }
+                                        .padding(8)
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    PhotosPicker(selection: $selectedImagesFM, matching: .images, photoLibrary: .shared()) {
+                        Label(selectedImagesFM.isEmpty ? "Select image FM" : "Replace image FM", systemImage: "photo")
+                    }
+                        .onChange(of: selectedImagesFM) {
+//                            newItems in
+//                            ImageLoaderFM.loadImages(from: newItems) { images in
+//                                noteImagesFM = images
+//                            }
+                                
+                            newItems in
+                            ImageLoaderFM.loadImages(from: newItems) { images in
+                                // Здесь для каждого UIImage сохраняем в файловую систему и добавляем путь в noteImagePaths
+                                DispatchQueue.global(qos: .userInitiated).async {
+                                    var newPaths: [String] = []
+                                    for image in images {
+                                        if let filename = ImageFileManager.saveImage(image, for: UUID()) {
+                                            newPaths.append(filename)
+                                            }
+                                    }
+                                    
+                                DispatchQueue.main.async {
+                                    noteImagePaths = (noteImagePaths ?? []) + newPaths
+                                    noteImagesFM.append(contentsOf: images)
+                                }
+                            }
+                        }
+                    }
+                }
             }
             .navigationBarTitle("Edit note", displayMode: .inline)
             .navigationBarItems(
@@ -108,7 +200,7 @@ struct EditNoteView: View {
                 } .foregroundColor(.red),
                 trailing: Button("Save") {
                     noteViewModel.note = note
-                    noteViewModel.updateNote(title: title, subTitle: subTitle, isCompleted: isCompleted)
+                    noteViewModel.updateNote(title: title, subTitle: subTitle, isCompleted: isCompleted, noteImagePaths: noteImagePaths)
                     saveNote()
                 }
                 .fontWeight(.bold)
@@ -120,7 +212,7 @@ struct EditNoteView: View {
     
     private func saveNote() {
         let imageDataArray = noteImages.compactMap { $0.jpegData(compressionQuality: 0.8) }
-        noteViewModel.updateNote(title: title, subTitle: subTitle, imagesData: imageDataArray, isCompleted: isCompleted)
+        noteViewModel.updateNote(title: title, subTitle: subTitle, imagesData: imageDataArray, isCompleted: isCompleted, noteImagePaths: noteImagePaths)
         dismiss()
     }
     

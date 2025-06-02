@@ -7,6 +7,7 @@
 
 import SwiftData
 import Foundation
+import SwiftUI
 
 class NoteViewModel: ObservableObject {
     @Published var note: Note?
@@ -30,21 +31,22 @@ class NoteViewModel: ObservableObject {
     }
 
     // 💾 Создание новой заметки
-    func createNote(title: String, subTitle: String, imagesData: [Data]? = nil, isCompleted: Bool = false) {
-        let newNote = Note(noteImages: imagesData, title: title, subTitle: subTitle, isCompleted: isCompleted)
+    func createNote(title: String, subTitle: String, imagesData: [Data]? = nil, isCompleted: Bool = false, noteImagePaths: [String]) {
+        let newNote = Note(noteImages: imagesData, title: title, subTitle: subTitle, isCompleted: isCompleted, noteImagePaths: noteImagePaths)
         noteService.createNote(newNote)
         loadAllNotes()
         print("✅ Новая заметка создана.")
     }
 
     // ✏️ Обновление данных существующей заметки
-    func updateNote(title: String, subTitle: String, imagesData: [Data]? = nil, isCompleted: Bool = false) {
+    func updateNote(title: String, subTitle: String, imagesData: [Data]? = nil, isCompleted: Bool = false, noteImagePaths: [String]) {
         guard let note = note else { return }
 
         note.title = title
         note.subTitle = subTitle
         note.noteImages = imagesData
         note.isCompleted = isCompleted
+        note.noteImagePaths = noteImagePaths
 
         noteService.updateNote(by: note.noteID, with: note)
         

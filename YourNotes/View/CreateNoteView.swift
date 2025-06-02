@@ -19,6 +19,11 @@ struct CreateNoteView: View {
     @State private var selectedImages: [PhotosPickerItem] = []
     @State private var noteImages: [UIImage] = []
     
+    @State private var selectedImagesFM: [PhotosPickerItem] = []
+    @State private var noteImagesFM: [UIImage] = []
+    @State private var noteImagePaths: [String] = []  // хранит пути к изображениям из FM
+
+    
     var body: some View {
         NavigationStack {
             Form {
@@ -53,7 +58,6 @@ struct CreateNoteView: View {
                 
                 Section(header: Text("Images")) {
                     
-                    
                     if !noteImages.isEmpty {
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack {
@@ -69,6 +73,7 @@ struct CreateNoteView: View {
                                         Button(action: {
                                             if let index = noteImages.firstIndex(of: image) {
                                                 noteImages.remove(at: index)
+//                                                selectedImages.remove(at: index)
                                             }
                                         }) {
                                             Image(systemName: "xmark.circle.fill")
@@ -88,7 +93,83 @@ struct CreateNoteView: View {
                         .onChange(of: selectedImages) { newItems in
                             ImageLoader.loadImages(from: newItems) { images in
                                 noteImages = images
+                                print("IMAGE LOADED - onchange")
                             }
+                            print("Call method onchange in success!")
+                        }
+                }
+                
+                Section(header: Text("FM Images")) {
+                    
+                    if !noteImagesFM.isEmpty {
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack {
+                                ForEach(Array(noteImagesFM.enumerated()), id: \.element) { index, image in
+                                    ZStack(alignment: .topTrailing) {
+                                        Image(uiImage: image)
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(height: 120)
+                                            .clipShape(RoundedRectangle(cornerRadius: 10))
+
+                                        // Кнопка для удаления изображения - need fix
+                                        Button(action: {
+                                            // Сначала удаляем файл с диска
+                                            let filename = noteImagePaths[index]
+                                            ImageFileManager.deleteImage(filename: filename)
+                                            
+                                            // Удаляем из массива путей и изображений
+                                            noteImagePaths.remove(at: index)
+                                            noteImagesFM.remove(at: index)
+                                            
+//                                            if let index = noteImagesFM.firstIndex(of: image) {
+//                                                noteImagesFM.remove(at: index)
+//                                            }
+
+                                        }) {
+                                            Image(systemName: "xmark.circle.fill")
+                                                .foregroundColor(.white)
+                                                .background(Circle().fill(Color.black.opacity(0.5)))
+                                        }
+                                        .padding(8)
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    PhotosPicker(selection: $selectedImagesFM, matching: .images, photoLibrary: .shared()) {
+                        Label(selectedImagesFM.isEmpty ? "Select image FM" : "Replace image FM", systemImage: "photo")
+                    }
+                        .onChange(of: selectedImagesFM) {
+                            
+                            // old code
+                            
+//                            newItems in
+//                            ImageLoaderFM.loadImages(from: newItems) { images in
+//                                noteImagesFM = images
+//                            }
+                            
+                             newItems in
+                                                ImageLoaderFM.loadImages(from: newItems) { images in
+                                                    // Здесь для каждого UIImage сохраняем в файловую систему и добавляем путь в noteImagePaths
+                                                    DispatchQueue.global(qos: .userInitiated).async {
+                                                        var newPaths: [String] = []
+                                                        for image in images {
+                                                            if let filename = ImageFileManager.saveImage(image, for: UUID()) {
+                                                                newPaths.append(filename)
+                                                            }
+                                                        }
+                                                        DispatchQueue.main.async {
+                                                            // Добавляем новые пути и изображения
+                                                            noteImagePaths.append(contentsOf: newPaths)
+                                                            noteImagesFM.append(contentsOf: images)
+                                                        }
+                                                    }
+                                                }
+                                            
+                            
+                            
                         }
                 }
             }
@@ -108,7 +189,7 @@ struct CreateNoteView: View {
     
     private func saveNote() {
         let imageData = noteImages.compactMap { $0.jpegData(compressionQuality: 0.8) }
-        noteViewModel.createNote(title: title, subTitle: subTitle, imagesData: imageData, isCompleted: isCompleted)
+        noteViewModel.createNote(title: title, subTitle: subTitle, noteImagePaths: noteImagePaths)
         dismiss()
     }
 }
