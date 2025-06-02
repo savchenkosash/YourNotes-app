@@ -124,6 +124,9 @@
         }
       }
     },
+    "FM Images" : {
+
+    },
     "Images" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -191,6 +194,9 @@
         }
       }
     },
+    "Replace image FM" : {
+
+    },
     "Save" : {
       "localizations" : {
         "ru" : {
@@ -211,7 +217,7 @@
         }
       }
     },
-    "Выбрать изображения" : {
+    "Select image FM" : {
 
     }
   },

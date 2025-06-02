@@ -78,6 +78,7 @@ final class NoteService: NoteServiceProtocol {
         existingNote.subTitle = newNote.subTitle
         existingNote.isCompleted = newNote.isCompleted
         existingNote.dateCreate = newNote.dateCreate
+        existingNote.noteImagePaths = newNote.noteImagePaths
 
         do {
             try context.save()
